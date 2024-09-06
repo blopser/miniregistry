@@ -86,12 +86,10 @@ jobs:
           {
             echo 'tags<<EOF'
             for tag in ${{ matrix.tags }}; do
-              echo "${{ matrix.image }}:$tag-$(cat ${{ matrix.context }}/VERSION.txt)"
-            ; done
+              echo "${{ matrix.image }}:$tag-$(cat ${{ matrix.context }}/VERSION.txt)" ; done
             if ${{ matrix.is_latest }} ; then
               echo "${{ matrix.image }}:$(cat ${{ matrix.context }}/VERSION.txt)"
-              echo "${{ matrix.image }}:latest"
-            ; fi
+              echo "${{ matrix.image }}:latest" ; fi
             echo EOF
           } >> "$GITHUB_ENV"
         if: env.IS_CHANGED == 'true'
