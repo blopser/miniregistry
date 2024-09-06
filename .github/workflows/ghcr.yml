@@ -113,7 +113,7 @@ jobs:
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.context }}/Dockerfile
-          push: false # ${{ github.event_name != 'pull_request' }}
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
