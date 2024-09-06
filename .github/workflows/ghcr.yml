@@ -24,10 +24,16 @@ jobs:
           - context: nginx
             image: ghcr.io/blopser/nginx
             is_latest: true
+            tags: 1.27.1-alpine mainline-alpine 1-alpine 1.27-alpine alpine 1.27.1-alpine3.20 mainline-alpine3.20 1-alpine3.20 1.27-alpine3.20 alpine3.20
+            build_args: |
+              BASE_IMAGE=1.27.1-alpine3.20
 
           - context: influxdb
             image: ghcr.io/blopser/influxdb
+            tags: 2-alpine 2.7-alpine 2.7.10-alpine alpine
             is_latest: true
+            build_args: |
+              BASE_IMAGE=2.7.10-alpine
 
           - context: python-dev
             image: ghcr.io/blopser/python-dev
@@ -87,7 +93,7 @@ jobs:
             echo 'tags<<EOF'
             for tag in ${{ matrix.tags }}; do
               echo "${{ matrix.image }}:$tag-$(cat ${{ matrix.context }}/VERSION.txt)" ; done
-            if ${{ matrix.is_latest }} ; then
+            if [ "${{ matrix.is_latest }}" = "true" ] ; then
               echo "${{ matrix.image }}:$(cat ${{ matrix.context }}/VERSION.txt)"
               echo "${{ matrix.image }}:latest" ; fi
             echo EOF
