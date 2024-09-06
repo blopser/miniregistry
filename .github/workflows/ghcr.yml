@@ -92,6 +92,7 @@ jobs:
               echo "${{ matrix.image }}:latest" ; fi
             echo EOF
           } >> "$GITHUB_ENV"
+          echo $GITHUB_ENV
         if: env.IS_CHANGED == 'true'
 
       # - name: Print version
