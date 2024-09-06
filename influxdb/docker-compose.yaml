@@ -1,0 +1,30 @@
+services:
+  influxdb:
+    build:
+      context: .
+      args:
+        - USER_ID=${USER_ID}
+        - GROUP_ID=${GROUP_ID}
+    ports:
+      - 8086:8086
+    volumes:
+      - $PWD/volumes${V}/data:/var/lib/influxdb2
+      - $PWD/volumes${V}/config:/etc/influxdb2
+      - $PWD/scripts:/docker-entrypoint-initdb.d
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=myuser
+      - DOCKER_INFLUXDB_INIT_PASSWORD=mypassword
+      - DOCKER_INFLUXDB_INIT_ORG=my-org
+      - DOCKER_INFLUXDB_INIT_BUCKET=my-bucket
+      - DOCKER_INFLUXDB_INIT_RETENTION=1w
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-super-secret-auth-token
+      - V1_AUTH_USERNAME=myrootuser
+      - V1_AUTH_PASSWORD=myrootpass
+      - V1_DB_NAME=mydb
+      - V1_RP_NAME=myrp
+    healthcheck:
+      test: ["CMD", "curl", "influxdb:8086/api/v2/ping"]
+      interval: 1m
+      timeout: 10s
+      retries: 5

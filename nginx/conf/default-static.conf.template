@@ -1,0 +1,9 @@
+server {
+    listen ${NGINX_PORT};
+    client_max_body_size 4G;
+
+    location ${NGINX_STATIC_URL} {
+        autoindex on;
+        root /var/www/static;
+    }
+}

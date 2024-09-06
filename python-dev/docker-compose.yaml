@@ -1,0 +1,9 @@
+services:
+  web:
+    image: ghcr.io/blopser/python-dev
+    command: python -c "import tqdm; print(tqdm)"
+    x-podman.uidmaps: ["0:1:1", "${UID:-1000}:0:1"]
+    environment:
+      - PIP_REQUIREMENTS=tqdm
+    volumes:
+      - ./venv:/home/user/app/venv
