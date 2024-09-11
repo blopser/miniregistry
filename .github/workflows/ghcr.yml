@@ -86,6 +86,8 @@ jobs:
             for tag in ${{ matrix.tags }}; do
               echo "${{ matrix.image }}:$tag-$(cat ${{ matrix.context }}/VERSION.txt)" ; done
             if [ "${{ matrix.is_latest }}" = "true" ] ; then
+              for tag in ${{ matrix.tags }}; do
+                echo "${{ matrix.image }}:$tag" ; done
               echo "${{ matrix.image }}:$(cat ${{ matrix.context }}/VERSION.txt)"
               echo "${{ matrix.image }}:latest" ; fi
             echo EOF
@@ -107,6 +109,7 @@ jobs:
           file: ${{ matrix.context }}/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.tags }}
+          build-args: ${{ matrix.build_args }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
